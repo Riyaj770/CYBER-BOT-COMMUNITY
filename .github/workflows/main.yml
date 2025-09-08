@@ -1,9 +1,9 @@
-name: Messenger Bot Deploy
+name: DEPLOY_WORKFLOWS
 
 on:
   push:
     branches:
-      - main   # শুধু main ব্রাঞ্চে push হলে deploy হবে
+      - main   # শুধু main ব্রাঞ্চে push হলে ট্রিগার হবে
 
 jobs:
   deploy:
@@ -13,21 +13,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm install --production
+        run: npm install
 
-      - name: Deploy via SSH
+      - name: Build Project
+        run: npm run build
+
+      - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote-user: ubuntu
           server-ip: ${{ secrets.SERVER_IP }}
-          remote-path: /var/www/messenger-bot
-          local-path: .
-
-
+          remote-path: /var/www/html/myapp
+          local-path: dist
