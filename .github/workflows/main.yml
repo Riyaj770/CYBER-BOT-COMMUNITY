@@ -1,28 +1,33 @@
-name: Node.js CI
+name: Messenger Bot Deploy
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main   # শুধু main ব্রাঞ্চে push হলে deploy হবে
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    # Step to check out the repository code
-    - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    # Step to set up the specified Node.js version
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    # Step to install dependenci
+      - name: Install Dependencies
+        run: npm install --production
+
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@v4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote-user: ubuntu
+          server-ip: ${{ secrets.SERVER_IP }}
+          remote-path: /var/www/messenger-bot
+          local-path: .
+
+
