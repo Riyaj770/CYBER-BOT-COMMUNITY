@@ -1,38 +1,26 @@
-name: Messenger Bot Deploy
+name: Messenger Bot CI/CD
 
 on:
   push:
     branches:
-      - main
+      - main   # শুধু main ব্রাঞ্চে push হলে রান করবে
+  pull_request:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. কোড চেকআউট
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Node.js সেটআপ
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 3. ডিপেন্ডেন্সি ইনস্টল
       - name: Install dependencies
         run: npm install
 
-      # 4. Environment সেটআপ (.env)
-      - name: Setup environment
-        run: |
-          echo "PAGE_ACCESS_TOKEN=${{ secrets.PAGE_ACCESS_TOKEN }}" >> .env
-          echo "APP_SECRET=${{ secrets.APP_SECRET }}" >> .env
-          echo "VERIFY_TOKEN=${{ secrets.VERIFY_TOKEN }}" >> .env
-
-      # 5. বট রান (যদি সার্ভারে pm2 থাকে)
-      - name: Start Bot
-        run: |
-          npm install -g pm2
-          pm2 start index.js --name messenger-bot --update-env
+      - name: Run Tests (optional)
+        run: npm test
