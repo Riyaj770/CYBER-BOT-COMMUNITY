@@ -33,4 +33,4 @@ jobs:
     - name: Start the bot
       env:
         PORT: 8080
-      run:  start masenjar bot
+      run: npm start
