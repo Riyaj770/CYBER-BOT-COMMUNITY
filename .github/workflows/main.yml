@@ -1,23 +1,28 @@
-const fetch = require("node-fetch");
+name: MeCyber Bot
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const GROUP_THREAD_ID = process.env.GROUP_THREAD_ID; 
+on:
+  push:
+    branches:
+      - main   # main ব্রাঞ্চে push করলে রান হবে
 
-async function sendMessage(text) {
-  const url = `https://graph.facebook.com/v19.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`;
-  const body = {
-    recipient: { thread_ke },
-    message: { text }
-  };
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  });
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-  const data = await res.json();
-  console.log("Messenger API response:", data);
-}
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-sendMessage("🚀 Cyber Bot Community থেকে সালাম! মেসেঞ্জার গ্রুপে টেক্সট যাচ্ছে ✅");
+    - name: Install dependencies
+      run: npm install node-fetch@2
+
+    - name: Run bot
+      run: node sendMessage.js
+      env:
+        PAGE_ACCESS_TOKEN: ${{ secrets.PAGE_ACCESS_TOKEN }}
+        GROUP_THREAD_ID: ${{ secrets.GROUP_THREAD_ID }}
