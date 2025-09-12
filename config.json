@@ -19,10 +19,10 @@
     "BOTNAME": " -𝐁𝐎𝐓 ⚠️",
     "PREFIX": "/",
     "ADMINBOT": [
-         "61560752385260"
-         "61560752385260"
-        "61560752385260"
-    ],
+    "61560752385260",
+    "61560752385260",
+    "61560752385260"
+],
     "NDH": [
         "100000478146113"
     ],
@@ -222,18 +222,4 @@
         "cooldownTime": 1000000
     },
     "sing2": {
-        "YOUTUBE_API": "AIzaSyBPdGN3eMhswfSKWoaomzdlEftf3NjV1gM",
-        "SOUNDCLOUD_API": "M4TSyS6eV0AcMynXkA3qQASGcOFQTWub"
-    },
-    "god": {
-        "enable": true
-    },
-    "help2": {
-        "autoUnsend": true,
-        "delayUnsend": 300
-    },
-    "helpall": {
-        "autoUnsend": true,
-        "delayUnsend": 20
-    }
-}
+        "YOUTUBE_A
